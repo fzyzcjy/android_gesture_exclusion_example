@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,6 +11,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.doOnNextLayout
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +36,12 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+
+        binding.root.doOnNextLayout {
+            val exclusions = listOf(Rect(0, it.bottom - 200, 100, it.bottom))
+            Log.i("hi", "setSystemGestureExclusionRects $exclusions")
+            ViewCompat.setSystemGestureExclusionRects(binding.root, exclusions)
         }
     }
 
